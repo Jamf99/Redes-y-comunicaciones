@@ -1,5 +1,7 @@
 package cliente.modelo;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
@@ -7,6 +9,14 @@ import java.net.MulticastSocket;
 
 public class MulticastCliente {
 
+	public static void CrearArchivo(String mensaje) throws IOException {
+
+		String path="/ArchivoCliente/file.txt";
+		File archivo= new File(path);
+		FileWriter fl= new FileWriter(archivo);	
+				fl.write(mensaje);
+	
+	}
 	
 	public static void main(String[] args) {
 		boolean escuchar = true;
@@ -28,7 +38,7 @@ public class MulticastCliente {
 			
 				String datos = new String(recibe.getData(),0,recibe.getLength());
 				if(!datos.equals("FIN"))
-					System.out.println(datos);
+					CrearArchivo(datos);
 				else
 					escuchar = false;
 				
