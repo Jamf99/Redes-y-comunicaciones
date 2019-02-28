@@ -10,6 +10,7 @@ public class Comunicacion {
 
 	public Comunicacion(VentanaCliente ventanaCliente) {
 		usuarios = new String[0];
+		grupos = new String[0];
 	}
 
 	public String[] getUsuarios() {
