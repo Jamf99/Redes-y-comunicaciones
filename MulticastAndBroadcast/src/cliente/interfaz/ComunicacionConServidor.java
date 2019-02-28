@@ -19,11 +19,12 @@ public class ComunicacionConServidor extends Thread {
 	private DataOutputStream sOut;
 
 	private Comunicacion principal;
+	private boolean conectado;
 
 	public ComunicacionConServidor(Comunicacion principal) {
 		this.principal = principal;
+		conectado = true;
 		crearComunicacion();
-
 	}
 
 	/**
@@ -46,7 +47,7 @@ public class ComunicacionConServidor extends Thread {
 	@Override
 	public void run() {
 		try {
-			while (true) {
+			while (conectado) {
 				recibirMensajes();
 				Thread.sleep(500);
 			}

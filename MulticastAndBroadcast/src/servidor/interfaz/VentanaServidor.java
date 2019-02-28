@@ -22,7 +22,6 @@ public class VentanaServidor extends JFrame {
 	private JTextArea txtLog;
 
 	public VentanaServidor() {
-		com = new Comunicacion(this);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLayout(new BorderLayout());
 
@@ -75,6 +74,7 @@ public class VentanaServidor extends JFrame {
 		setBounds(250, 150, 600, 400);
 		pack();
 
+		com = new Comunicacion(this);
 		refreshUsuarios();
 		refreshGroups();
 	}

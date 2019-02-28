@@ -1,16 +1,18 @@
 package cliente.interfaz;
 
-import servidor.interfaz.VentanaServidor;
-
 public class Comunicacion {
 
-	private VentanaServidor interfaz;
+	private VentanaCliente interfaz;
 	private String[] usuarios;
 	private String[] grupos;
+	
+	private ComunicacionConServidor com;
 
 	public Comunicacion(VentanaCliente ventanaCliente) {
+		interfaz = ventanaCliente;
 		usuarios = new String[0];
 		grupos = new String[0];
+		com = new ComunicacionConServidor(this);
 	}
 
 	public String[] getUsuarios() {

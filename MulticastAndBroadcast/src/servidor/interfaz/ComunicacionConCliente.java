@@ -8,7 +8,7 @@ import java.net.Socket;
 public class ComunicacionConCliente extends Thread{
 
 	public final static String COMMAND = ":";
-	public final static String LISTA_USUARIOS = "-_usuarios";
+	public final static String LISTA_USUARIOS = "l_usuarios";
 	public final static String LISTA_GRUPOS = "l_grupos";
 	
 	private Comunicacion principal;
@@ -21,7 +21,7 @@ public class ComunicacionConCliente extends Thread{
 	
 	
 	public ComunicacionConCliente(Comunicacion com, Socket s) {
-		com = principal;
+		principal = com;
 		this.s= s;
 		this.conectado = true;
 	}
@@ -35,6 +35,8 @@ public class ComunicacionConCliente extends Thread{
 				recibirMensajes();
 				sleep(500);
 			}
+			sOut.close();
+			sIn.close();			
 		} catch (IOException | InterruptedException e) {
 			e.printStackTrace();
 			VentanaServidor.LOG("Se ha perdido la conexión con", nombre);
@@ -82,5 +84,11 @@ public class ComunicacionConCliente extends Thread{
 	 */
 	public String getNombre() {
 		return nombre;
+	}
+	public void setConectado(boolean conectado) {
+		this.conectado = conectado;
+	}
+	public boolean isConectado() {
+		return conectado;
 	}
 }

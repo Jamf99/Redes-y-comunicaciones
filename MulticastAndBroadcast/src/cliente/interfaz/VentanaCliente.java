@@ -23,6 +23,7 @@ public class VentanaCliente extends JFrame {
 
 	public VentanaCliente() {
 		com = new Comunicacion(this);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		JPanel puContainer = new JPanel();
 		puContainer.setBorder(new TitledBorder("Info Usuarios"));
 
@@ -47,7 +48,7 @@ public class VentanaCliente extends JFrame {
 		panelLogs.setBorder(new TitledBorder("Log de la aplicación"));
 		panelLogs.setLayout(new GridLayout(1, 1));
 		panelLogs.add(new JScrollPane(txtLog));
-		panelLogs.setPreferredSize(new Dimension(100, 200));
+		panelLogs.setPreferredSize(new Dimension(300, 200));
 		txtLog.setEditable(false);
 
 		add(topInfoCOntaier, BorderLayout.NORTH);
