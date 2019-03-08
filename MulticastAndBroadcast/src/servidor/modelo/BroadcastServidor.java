@@ -5,14 +5,13 @@ import java.nio.ByteBuffer;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
 
 import cliente.interfaz.VentanaCliente;
 
 import java.awt.image.BufferedImage;
 import java.io.*;
 
-public class BroadcastServidor {
+public class BroadcastServidor  {
 
 	private File leerArchivo() {
 		JFileChooser fileChooser = new JFileChooser();
@@ -24,7 +23,6 @@ public class BroadcastServidor {
 		} else {
 			return null;
 		}
-
 	}
 
 	public void enviarArchivo() throws Exception{
