@@ -10,7 +10,7 @@ import java.net.InetAddress;
 import java.net.MulticastSocket;
 import java.net.Socket;
 
-public class MulticastCliente {
+public class MulticastCliente extends Thread{
 	public static void main(String[] args) {
 
 		boolean escuchar = true;
@@ -27,7 +27,8 @@ public class MulticastCliente {
 				DatagramPacket recibe = new DatagramPacket(buf, buf.length);
 				mSock.receive(recibe);
 				// para obtener los datos del mensaje
-
+				 
+				
 				// String datos = new String(recibe.getData(),recibe.getLength());
 				String datos = new String(recibe.getData(), 0, recibe.getLength());
 				if (!datos.equals("FIN"))
