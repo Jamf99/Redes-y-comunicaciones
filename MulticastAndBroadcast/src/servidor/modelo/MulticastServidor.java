@@ -57,12 +57,10 @@ public class MulticastServidor {
 	}
 
 	public static void main(String[] args) throws IOException {
-		boolean continuar = true;
+		
 		MulticastServidor server = new MulticastServidor();
-		while (continuar) {
-			server.enviar();
 
-		}
+		server.enviar();
 
 	}
 
