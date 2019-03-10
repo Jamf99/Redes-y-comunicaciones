@@ -5,6 +5,9 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
+
 import cliente.interfaz.VentanaCliente;
 
 public class ComunicacionConServidor extends Thread {
@@ -43,7 +46,10 @@ public class ComunicacionConServidor extends Thread {
 	 */
 	public void crearComunicacion() {
 		try {
-			s = new Socket(IP_DEFAULT, PUERTO);
+			String ip = JOptionPane.showInputDialog("Ingrese la IP del servidor");
+			if (ip == null || "".equals(ip))
+				ip = IP_DEFAULT;
+			s = new Socket(ip, PUERTO);
 			sOut = new DataOutputStream(s.getOutputStream());
 			sIn = new DataInputStream(s.getInputStream());
 
