@@ -9,6 +9,8 @@ public class ComunicacionConServidor extends Thread {
 	public final static String COMMAND = ":";
 	public final static String LISTA_USUARIOS = "l_usuarios";
 	public final static String LISTA_GRUPOS = "l_grupos";
+	public final static String ENTRAR_GRUPO = "join_g";
+	public final static String SALIR_GRUPO = "leave_g";
 
 	public final static int PUERTO = 8080;
 	public final static String IP_DEFAULT = "127.0.0.1";
@@ -71,7 +73,8 @@ public class ComunicacionConServidor extends Thread {
 			principal.setUsuarios(usuarios);
 			break;
 		case LISTA_GRUPOS:
-			String[] grupos = nextLineServer().split(COMMAND);
+			String nl = nextLineServer();
+			String[] grupos = "".equals(nl) ? new String[0] : nl.split(COMMAND);
 			principal.setGrupos(grupos);
 			break;
 		default:

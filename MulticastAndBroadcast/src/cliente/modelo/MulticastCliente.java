@@ -6,11 +6,12 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
+import java.net.SocketTimeoutException;
 
 import cliente.interfaz.VentanaCliente;
 
 public class MulticastCliente extends Thread {
-
+	public final static int TIEMPO_ESPERA_MULTICAST = 10000;
 	public final static String IP = "239.1.2.2";
 	private MulticastSocket ms;
 	private InetAddress grupo;
@@ -49,6 +50,7 @@ public class MulticastCliente extends Thread {
 		try {
 			while (escuchar) {
 				recibir();
+				// System.out.println("Recibiendo multicast...");
 				sleep(500);
 			}
 		} catch (InterruptedException e) {
@@ -61,8 +63,8 @@ public class MulticastCliente extends Thread {
 
 			byte[] buf = new byte[6000];
 			DatagramPacket recibe = new DatagramPacket(buf, buf.length);
+			ms.setSoTimeout(TIEMPO_ESPERA_MULTICAST);
 			ms.receive(recibe);
-
 			String filename = "data/txt/" + grupo.getHostName() + "_" + System.currentTimeMillis() + "_"
 					+ (Math.random() * 3000) + ".txt";
 			File o = new File(filename);
@@ -74,11 +76,17 @@ public class MulticastCliente extends Thread {
 			oo.flush();
 			oo.close();
 			VentanaCliente.LOG("Se ha recibido el archivo por multicast: ", filename);
+		} catch (SocketTimeoutException e) {
+
 		} catch (IOException e) {
 			System.err.println(e);
 			VentanaCliente.LOG("Error al recibir un archivo txt.");
 		}
 
+	}
+
+	public String getIP() {
+		return grupo.getHostAddress();
 	}
 
 }

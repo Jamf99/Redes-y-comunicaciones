@@ -10,7 +10,7 @@ import java.net.MulticastSocket;
 import servidor.interfaz.VentanaServidor;
 
 public class MulticastServidor {
-	private final String IP = "239.1.2.2";
+	public final static String IP = "239.1.2.2"; // IP base (todos pueden comenzar en este grupo)
 	private MulticastSocket ms;
 	private InetAddress grupo;
 

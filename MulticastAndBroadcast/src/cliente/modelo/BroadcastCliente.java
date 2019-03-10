@@ -3,7 +3,6 @@ package cliente.modelo;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
@@ -28,14 +27,22 @@ public class BroadcastCliente extends Thread {
 
 	private InetAddress address;
 
+	private boolean escuchar;
+
 	public BroadcastCliente() {
+		escuchar = true;
 		try {
 			address = InetAddress.getByName(IP);
 			ds = new DatagramSocket(PORT);
 			ds.setBroadcast(true);
-			//VentanaCliente.LOG(ds.getInetAddress().getHostName());
+			// VentanaCliente.LOG(ds.getInetAddress().getHostName());
 		} catch (SocketException | UnknownHostException e) {
 			e.printStackTrace();
+			escuchar = false;
+			VentanaCliente.LOG(
+					"No se ha podico conectar al broadcast, en este equipo ya está ocupado el puerto con otro cliente.");
+			System.out.println(
+					"No se ha podico conectar al broadcast, en este equipo ya está ocupado el puerto con otro cliente.");
 		}
 		start();
 	}
@@ -44,7 +51,7 @@ public class BroadcastCliente extends Thread {
 		dp = new DatagramPacket(new byte[66507], 66507, address, PORT);
 		try {
 
-			while (true) {
+			while (escuchar) {
 				recibir();
 				sleep(500);
 			}
@@ -63,7 +70,7 @@ public class BroadcastCliente extends Thread {
 			ImageReader re = ImageIO.getImageReadersByFormatName("jpeg").next();
 			re.setInput(iis);
 			bf = re.read(0);
-
+			VentanaCliente.SET_BF(bf);
 			String filename = "data/img/imagen_" + System.currentTimeMillis() + "_" + (Math.random() * 3000) + ".jpg";
 			File o = new File(filename);
 			ImageOutputStream ios = ImageIO.createImageOutputStream(o);
