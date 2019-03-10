@@ -5,6 +5,9 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
 
+import servidor.modelo.BroadcastServidor;
+import servidor.modelo.MulticastServidor;
+
 public class Comunicacion {
 
 	public final int PUERTO = 8080;
@@ -14,11 +17,16 @@ public class Comunicacion {
 	private VentanaServidor interfaz;
 
 	private ServerSocket ss;
+	
+	private MulticastServidor multicast;
+	private BroadcastServidor broadCast;
 
 	public Comunicacion(VentanaServidor ventanaServidor) {
 		interfaz = ventanaServidor;
 		usuarios = new HashMap<String, ComunicacionConCliente>();
 		aceptarClientes();
+		multicast= new MulticastServidor();
+		broadCast = new BroadcastServidor();
 	}
 
 	/**
@@ -111,5 +119,24 @@ public class Comunicacion {
 
 	public String[] getUsuarios() {
 		return usuarios.keySet().toArray(new String[usuarios.size()]);
+	}
+	
+	
+	
+	// TODO comentar
+	public void enviarMulticast() {
+		try {
+			multicast.enviar();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void EnviarBroadCast() {
+		try {
+			broadCast.enviarArchivo();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

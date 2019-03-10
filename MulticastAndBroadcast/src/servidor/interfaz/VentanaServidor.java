@@ -135,11 +135,11 @@ public class VentanaServidor extends JFrame {
 	}
 
 	public void enviarBroadcast() {
-
+		com.EnviarBroadCast();
 	}
 
 	public void enviarMulticast() {
-
+		com.enviarMulticast();
 	}
 
 	public void log(String... params) {
