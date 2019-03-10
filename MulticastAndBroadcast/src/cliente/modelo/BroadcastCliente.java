@@ -29,6 +29,9 @@ public class BroadcastCliente extends Thread {
 
 	private boolean escuchar;
 
+	/**
+	 * Inicializa la comunicación por Broadcast.
+	 */
 	public BroadcastCliente() {
 		escuchar = true;
 		try {
@@ -60,21 +63,28 @@ public class BroadcastCliente extends Thread {
 		}
 	}
 
+	/**
+	 * Recibe una imagen desde el servidor.
+	 */
 	private void recibir() {
 		try {
 			ds.receive(dp);
 			byte[] b = dp.getData();
-
+			// Crea os flujos para leer los datos
 			ByteArrayInputStream bis = new ByteArrayInputStream(b);
 			ImageInputStream iis = ImageIO.createImageInputStream(bis);
 			ImageReader re = ImageIO.getImageReadersByFormatName("jpeg").next();
 			re.setInput(iis);
+			// Guarda los datos leidos del servidor en un buffer
 			bf = re.read(0);
+			// Actualiza con el bufffer la imagen que se muestra en la interfaz.
 			VentanaCliente.SET_BF(bf);
+			// Guarda el archivo de imagen.
 			String filename = "data/img/imagen_" + System.currentTimeMillis() + "_" + (Math.random() * 3000) + ".jpg";
 			File o = new File(filename);
 			ImageOutputStream ios = ImageIO.createImageOutputStream(o);
 			ios.write(b);
+			// Cierra los flujos
 			ios.flush();
 			ios.close();
 			VentanaCliente.LOG("Se ha recibido el la imagen por broadcast: ", filename);

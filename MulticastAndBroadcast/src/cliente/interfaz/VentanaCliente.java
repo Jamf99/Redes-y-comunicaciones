@@ -16,6 +16,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.border.TitledBorder;
 
+import cliente.modelo.Comunicacion;
 import servidor.interfaz.VentanaServidor;
 
 public class VentanaCliente extends JFrame {
@@ -28,6 +29,9 @@ public class VentanaCliente extends JFrame {
 	private PanelImage panelImagen;
 	private Comunicacion com;
 
+	/**
+	 * Inicializa la intefaz de la aplicación.
+	 */
 	public VentanaCliente() {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		JPanel puContainer = new JPanel();
@@ -69,12 +73,20 @@ public class VentanaCliente extends JFrame {
 
 	}
 
+	/**
+	 * Inicializa la conexión de la aplicación.
+	 */
 	public void iniciar() {
 		com = new Comunicacion(this);
 		refreshUsuarios();
 		refreshGroups();
 	}
 
+	/**
+	 * Main de la aplicación.
+	 * 
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		REF = new VentanaCliente();
 		REF.iniciar();
@@ -116,10 +128,22 @@ public class VentanaCliente extends JFrame {
 		pack();
 	}
 
+	/**
+	 * Cambbia el grupo muticast
+	 * 
+	 * @param ip
+	 *            IP del nuevo grupo.
+	 */
 	public void cambiarGrupo(String ip) {
 		com.cambiarGrupoMulticast(ip);
 	}
 
+	/**
+	 * Muestra los mensajes en la interfaz separados por espacios.
+	 * 
+	 * @param params
+	 *            texto a imprimir.
+	 */
 	public void log(String... params) {
 		for (String str : params) {
 			txtLog.append(str + " ");
@@ -127,12 +151,24 @@ public class VentanaCliente extends JFrame {
 		txtLog.append("\n");
 	}
 
+	/**
+	 * Muestra los mensajes en la interfaz separados por saltos de línea.
+	 * 
+	 * @param params
+	 *            texto a imprimir.
+	 */
 	public void logln(String... params) {
 		for (String str : params) {
 			txtLog.append(str + "\n");
 		}
 	}
 
+	/**
+	 * Llama el método log.
+	 * 
+	 * @param paramstexto
+	 *            a imprimir.
+	 */
 	public final static void LOG(String... params) {
 		if (REF != null)
 			REF.log(params);
@@ -140,6 +176,12 @@ public class VentanaCliente extends JFrame {
 			System.out.println("Error al encontrar el log de a interfaz");
 	}
 
+	/**
+	 * Llama el método logln.
+	 * 
+	 * @param params
+	 *            texto a imprimir.
+	 */
 	public final static void LOGLN(String... params) {
 		if (REF != null)
 			REF.logln(params);
@@ -147,11 +189,20 @@ public class VentanaCliente extends JFrame {
 			System.out.println("Error al encontrar el log de a interfaz");
 	}
 
+	/**
+	 * Actualiza la imagen a mostrar.
+	 * 
+	 * @param bf
+	 *            Buffer con la imagen recibida.
+	 */
 	public final static void SET_BF(BufferedImage bf) {
 		if (REF != null && REF.panelImagen != null)
 			REF.panelImagen.setBf(bf);
 	}
 
+	/**
+	 * Panel en el que se pinta una iimagen recibida del servidor.
+	 */
 	private class PanelImage extends JPanel {
 		private BufferedImage bf;
 
@@ -170,6 +221,10 @@ public class VentanaCliente extends JFrame {
 
 		}
 
+		/**
+		 * @param bf
+		 *            Buffer con el contenido de la imagen
+		 */
 		public void setBf(BufferedImage bf) {
 			this.bf = bf;
 			this.repaint();
@@ -177,6 +232,9 @@ public class VentanaCliente extends JFrame {
 
 	}
 
+	/**
+	 * Botón para cambiar de grupo multicast.
+	 */
 	private class MCGButton extends JButton {
 		public MCGButton(String ip, int count) {
 			super(ip + " " + count + "/5");

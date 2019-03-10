@@ -18,6 +18,10 @@ public class MulticastServidor {
 		conectar(IP);
 	}
 
+	/**
+	 * @param ip
+	 *            IP a conectarse,
+	 */
 	private void conectar(String ip) {
 		if (CambiarGrupo(ip))
 			VentanaServidor.LOG("Conectado a Multicast en: ", ip);
@@ -25,6 +29,14 @@ public class MulticastServidor {
 			VentanaServidor.LOG("No se ha podido conectar a Multicast en: ", ip);
 	}
 
+	/**
+	 * Maneja el cambio de grupo en multicast, deja el grupo actual y entra al grupo
+	 * de la nueva IP.
+	 * 
+	 * @param ip
+	 *            nueva ip a conectar.
+	 * @return true si se pudo cambiar el grupo, false en caso contrario.
+	 */
 	public boolean CambiarGrupo(String ip) {
 		boolean cambio = false;
 		try {
@@ -40,8 +52,13 @@ public class MulticastServidor {
 		return cambio;
 	}
 
+	/**
+	 * Envía un archivo de texto (.txt) por multicast.
+	 * 
+	 * @throws IOException
+	 */
 	public void enviar() throws IOException {
-		File f = BroadcastServidor.leerArchivo();// = new File("ArchivoClientes.txt");
+		File f = BroadcastServidor.leerArchivo();
 		if (f == null) {
 			VentanaServidor.LOG("No seleccionó ningún archivo");
 			return;

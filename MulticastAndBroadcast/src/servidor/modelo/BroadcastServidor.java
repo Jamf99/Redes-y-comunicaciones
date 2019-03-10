@@ -35,6 +35,10 @@ public class BroadcastServidor {
 
 	}
 
+	/**
+	 * Obtiene un archivo seleccionado por el usuario.
+	 * @return Archivo seleccionado
+	 */
 	public static File leerArchivo() {
 		JFileChooser fileChooser = new JFileChooser();
 		int valor = fileChooser.showOpenDialog(fileChooser);
@@ -47,6 +51,13 @@ public class BroadcastServidor {
 		}
 	}
 
+	/**
+	 * Envía una imagen (.jpg) por broadcast.
+	 * @throws Exception
+	 */
+	/**
+	 * @throws Exception
+	 */
 	public void enviarArchivo() throws Exception {
 		File imagen = leerArchivo();
 		if (imagen == null) {
@@ -56,19 +67,20 @@ public class BroadcastServidor {
 			VentanaServidor.LOG("Seleccione una imagen .jpg", imagen.getName());
 			return;
 		}
+		// Lee el archivo como imagen y lo escribe en un arreglo de bytes
 		BufferedImage bfi = ImageIO.read(imagen);
 		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 		ImageIO.write(bfi, "jpg", byteArrayOutputStream);
 		ImageWriter wr = ImageIO.getImageWritersByFormatName("jpeg").next();
 		ImageWriteParam iwp = wr.getDefaultWriteParam();
 		iwp.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
-		iwp.setCompressionQuality(0.5f);
+		iwp.setCompressionQuality(0.5f);		
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		ImageOutputStream ios = ImageIO.createImageOutputStream(out);
 		wr.setOutput(ios);
 		wr.write(null, new IIOImage(bfi, null, null), iwp);
 		byte[] b = out.toByteArray();
-
+		// Envía el arreglo de bytes como un datagrama
 		DatagramPacket dp = new DatagramPacket(b, b.length, address, PORT);
 		ds.send(dp);
 		VentanaServidor.LOG("Se ha enviado la imagen");

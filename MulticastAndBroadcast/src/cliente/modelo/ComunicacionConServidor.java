@@ -1,9 +1,11 @@
-package cliente.interfaz;
+package cliente.modelo;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+
+import cliente.interfaz.VentanaCliente;
 
 public class ComunicacionConServidor extends Thread {
 	public final static String COMMAND = ":";
@@ -23,6 +25,12 @@ public class ComunicacionConServidor extends Thread {
 	private Comunicacion principal;
 	private boolean conectado;
 
+	/**
+	 * Inicializa lla comunicación TCP para manejar con eventos el servidor.
+	 * 
+	 * @param principal
+	 *            Comunicación principal
+	 */
 	public ComunicacionConServidor(Comunicacion principal) {
 		this.principal = principal;
 		conectado = true;

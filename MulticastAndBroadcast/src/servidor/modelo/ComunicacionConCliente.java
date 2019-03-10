@@ -1,9 +1,11 @@
-package servidor.interfaz;
+package servidor.modelo;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+
+import servidor.interfaz.VentanaServidor;
 
 public class ComunicacionConCliente extends Thread {
 
@@ -21,6 +23,14 @@ public class ComunicacionConCliente extends Thread {
 	private DataInputStream sIn;
 	private DataOutputStream sOut;
 
+	/**
+	 * Crea la comunicación para conectar los clientes por tcp.
+	 * 
+	 * @param com
+	 *            Comunicación principal
+	 * @param s
+	 *            Socket con la conexión al cliente.
+	 */
 	public ComunicacionConCliente(Comunicacion com, Socket s) {
 		principal = com;
 		this.s = s;
@@ -100,10 +110,17 @@ public class ComunicacionConCliente extends Thread {
 		return nombre;
 	}
 
+	/**
+	 * @param conectado
+	 *            cambia el estado del usuario entre conectado y desconectado.
+	 */
 	public void setConectado(boolean conectado) {
 		this.conectado = conectado;
 	}
 
+	/**
+	 * @return true si el usuario sigue conectado, false en caso contrario.
+	 */
 	public boolean isConectado() {
 		return conectado;
 	}

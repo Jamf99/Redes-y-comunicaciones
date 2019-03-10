@@ -17,12 +17,24 @@ public class MulticastCliente extends Thread {
 	private InetAddress grupo;
 	private boolean escuchar;
 
+	/**
+	 * Inicializa la comunicación por multicast.
+	 * 
+	 * @param ip
+	 *            IP del grupo por defeto al que se une el usuario.
+	 */
 	public MulticastCliente(String ip) {
 		escuchar = true;
 		conectar(ip);
 		start();
 	}
 
+	/**
+	 * Cambia la conexión del grupo multicast.
+	 * 
+	 * @param ip
+	 *            IP del nuevo grupo multicast.
+	 */
 	private void conectar(String ip) {
 		if (CambiarGrupo(ip))
 			VentanaCliente.LOG("Conectado a Multicast en: ", ip);
@@ -30,6 +42,13 @@ public class MulticastCliente extends Thread {
 			VentanaCliente.LOG("No se ha podido conectar a Multicast en: ", ip);
 	}
 
+	/**
+	 * Cambia de grupo multicast, abandonando el grupo al que pertenecía.
+	 * 
+	 * @param ip
+	 *            IP del nuevo grupo a pertenecer.
+	 * @return true si se pudo realizar el cambio, false en caso contrario.
+	 */
 	public boolean CambiarGrupo(String ip) {
 		boolean cambio = false;
 		try {
@@ -58,6 +77,9 @@ public class MulticastCliente extends Thread {
 		}
 	}
 
+	/**
+	 * Recibe un archivo y lo guarda en un archivo .txt.
+	 */
 	private void recibir() {
 		try {
 
@@ -85,6 +107,9 @@ public class MulticastCliente extends Thread {
 
 	}
 
+	/**
+	 * @return IP a la que está conectado por multicast.
+	 */
 	public String getIP() {
 		return grupo.getHostAddress();
 	}

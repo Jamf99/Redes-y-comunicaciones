@@ -15,6 +15,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.border.TitledBorder;
 
+import servidor.modelo.Comunicacion;
 import servidor.modelo.MulticastServidor;
 
 public class VentanaServidor extends JFrame {
@@ -29,18 +30,21 @@ public class VentanaServidor extends JFrame {
 	private JPanel panelLogs;
 	private JTextArea txtLog;
 
+	/**
+	 * Inicializa la interfaz de la aplicación.
+	 */
 	public VentanaServidor() {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLayout(new BorderLayout());
 
-		enviarBroadcast = new JButton("Enviar por Broadcast");
+		enviarBroadcast = new JButton("Enviar por Broadcast (JPG)");
 		enviarBroadcast.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				enviarBroadcast();
 			}
 		});
-		enviarMulticast = new JButton("Enviar por Multicast");
+		enviarMulticast = new JButton("Enviar por Multicast (TXT)");
 		enviarMulticast.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -83,12 +87,20 @@ public class VentanaServidor extends JFrame {
 		pack();
 	}
 
+	/**
+	 * Inicializa la comunicación y actualiza la interfaz.
+	 */
 	public void iniciar() {
 		com = new Comunicacion(this);
 		refreshUsuarios();
 		refreshGroups(new String[0]);
 	}
 
+	/**
+	 * Método Main
+	 * 
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		REF = new VentanaServidor();
 		REF.iniciar();
@@ -150,6 +162,9 @@ public class VentanaServidor extends JFrame {
 		pack();
 	}
 
+	/**
+	 * Crea un nuevo grupo multicast
+	 */
 	public void crearGrupo() {
 		String ipGrupo = JOptionPane.showInputDialog("Ingrese la IP del grupo. (Multicast)");
 		if (ipGrupo == null || "".equals(ipGrupo)) {
@@ -159,18 +174,36 @@ public class VentanaServidor extends JFrame {
 		com.crearGrupoMulticast(ipGrupo);
 	}
 
+	/**
+	 * Cambia el grupo multicast al que se envían los archivos.
+	 * 
+	 * @param ip
+	 *            Ip del nuevo grupo
+	 */
 	public void cambiarGrupo(String ip) {
 		com.cambiarGrupoMulticast(ip);
 	}
 
+	/**
+	 * Envía un archivo por broadcast.
+	 */
 	public void enviarBroadcast() {
 		com.EnviarBroadCast();
 	}
 
+	/**
+	 * Envía un archivo por multicast.
+	 */
 	public void enviarMulticast() {
 		com.enviarMulticast();
 	}
 
+	/**
+	 * Muestra los mensajes en la interfaz separados por espacios.
+	 * 
+	 * @param params
+	 *            texto a imprimir.
+	 */
 	public void log(String... params) {
 		for (String str : params) {
 			txtLog.append(str + " ");
@@ -178,12 +211,24 @@ public class VentanaServidor extends JFrame {
 		txtLog.append("\n");
 	}
 
+	/**
+	 * Muestra los mensajes en la interfaz separados por saltos de línea.
+	 * 
+	 * @param params
+	 *            texto a imprimir.
+	 */
 	public void logln(String... params) {
 		for (String str : params) {
 			txtLog.append(str + "\n");
 		}
 	}
 
+	/**
+	 * LLama el método log.
+	 * 
+	 * @param params
+	 *            texto a imprimir.
+	 */
 	public final static void LOG(String... params) {
 		if (REF != null)
 			REF.log(params);
@@ -191,6 +236,12 @@ public class VentanaServidor extends JFrame {
 			System.out.println("Error al encontrar el log de a interfaz");
 	}
 
+	/**
+	 * Llama el método logln
+	 * 
+	 * @param params
+	 *            texto a imprimir.
+	 */
 	public final static void LOGLN(String... params) {
 		if (REF != null)
 			REF.logln(params);
@@ -198,6 +249,9 @@ public class VentanaServidor extends JFrame {
 			System.out.println("Error al encontrar el log de a interfaz");
 	}
 
+	/**
+	 * Botón para cambiar de grupo multicast.
+	 */
 	private class MCGButton extends JButton {
 		public MCGButton(String ip, int count) {
 			super(ip + " " + count + "/5");

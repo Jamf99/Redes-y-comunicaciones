@@ -1,4 +1,4 @@
-package servidor.interfaz;
+package servidor.modelo;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -7,8 +7,7 @@ import java.net.Socket;
 import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import servidor.modelo.BroadcastServidor;
-import servidor.modelo.MulticastServidor;
+import servidor.interfaz.VentanaServidor;
 
 public class Comunicacion {
 
@@ -94,6 +93,12 @@ public class Comunicacion {
 		return k;
 	}
 
+	/**
+	 * Elimina un usuario de los usuarios activos en TCP.
+	 * 
+	 * @param con
+	 *            Usuario a eliminar.
+	 */
 	public void desconectarUsuario(ComunicacionConCliente con) {
 		usuarios.remove(con.getNombre());
 		actualizarUsuarios();
@@ -149,6 +154,14 @@ public class Comunicacion {
 		return true;
 	}
 
+	/**
+	 * Agrega o elimina un usuario a un grupo
+	 * 
+	 * @param ip
+	 *            IP del grupo en el que se ralizará el cambio
+	 * @param agregar
+	 *            true si se une al grupo, false en caso contrario
+	 */
 	public void agregarEliminarUsuarioAGrupo(String ip, boolean agregar) {
 		int sum = agregar ? 1 : -1;
 		AtomicInteger s = gruposMulticast.get(ip);
@@ -157,6 +170,10 @@ public class Comunicacion {
 		actualizarGruposMulticast();
 	}
 
+	/**
+	 * Actualiza los grupos y su cantidad de usuarios, también envía a los usuarios
+	 * conectados la información de los grupos a actualizar.
+	 */
 	public void actualizarGruposMulticast() {
 		StringBuilder sb = new StringBuilder();
 		for (String ip : gruposMulticast.keySet()) {
@@ -175,6 +192,12 @@ public class Comunicacion {
 
 	}
 
+	/**
+	 * LLama al método para cambiar de grupo en multicast.
+	 * 
+	 * @param ip
+	 *            IP del nuevo grupo al que se enviarán los archivos.
+	 */
 	public void cambiarGrupoMulticast(String ip) {
 		if (multicast.CambiarGrupo(ip))
 			interfaz.log("Multicast grupo: ", ip);

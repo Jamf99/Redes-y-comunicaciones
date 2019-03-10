@@ -1,9 +1,8 @@
-package cliente.interfaz;
+package cliente.modelo;
 
 import java.io.IOException;
 
-import cliente.modelo.BroadcastCliente;
-import cliente.modelo.MulticastCliente;
+import cliente.interfaz.VentanaCliente;
 
 public class Comunicacion {
 
@@ -15,6 +14,12 @@ public class Comunicacion {
 	private MulticastCliente multicast;
 	private BroadcastCliente broadcast;
 
+	/**
+	 * Comunicación principal de la aplicación.
+	 * 
+	 * @param ventanaCliente
+	 *            Interfaz de la aplicación
+	 */
 	public Comunicacion(VentanaCliente ventanaCliente) {
 		interfaz = ventanaCliente;
 		usuarios = new String[0];
@@ -24,24 +29,49 @@ public class Comunicacion {
 		broadcast = new BroadcastCliente();
 	}
 
+	/**
+	 * @return Usuarios activos.
+	 */
 	public String[] getUsuarios() {
 		return usuarios;
 	}
 
+	/**
+	 * Actualiza los usuarios activos.
+	 * 
+	 * @param usuarios
+	 *            Nuevos usuarios activos.
+	 */
 	public void setUsuarios(String[] usuarios) {
 		this.usuarios = usuarios;
 		interfaz.refreshUsuarios();
 	}
 
+	/**
+	 * @return Grupos activos
+	 */
 	public String[] getGrupos() {
 		return grupos;
 	}
 
+	/**
+	 * Actualiza los grupos activos en la aplicación.
+	 * 
+	 * @param grupos
+	 *            nuevos grupos activos.
+	 */
 	public void setGrupos(String[] grupos) {
 		this.grupos = grupos;
 		interfaz.refreshGroups();
 	}
 
+	/**
+	 * Cambia de grupo multicast para recibir archivos del servidor. abandona el
+	 * grupo actual para poder unirse al nuevo frupo.
+	 * 
+	 * @param ip
+	 *            IP del nuevo grupo.
+	 */
 	public void cambiarGrupoMulticast(String ip) {
 		String prevIP = multicast.getIP();
 		if (multicast.CambiarGrupo(ip)) {
